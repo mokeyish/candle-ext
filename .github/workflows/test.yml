@@ -1,0 +1,32 @@
+name: test
+
+on:
+  push:
+    branches:
+      - main
+      - release/**
+  pull_request:
+    branches:
+      - main
+      - release/**
+  schedule:
+    - cron: "0 3 * * 4"
+
+env:
+  CARGO_WS_VERSION: "0.2.44"
+
+jobs:
+  test:
+    name: platform
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Cargo test
+        run: cargo test
+

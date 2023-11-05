@@ -1,5 +1,8 @@
 # Candle Extensions
 
+![Test](https://github.com/mokeyish/candle_ext/actions/workflows/test.yml/badge.svg?branch=main)
+[![](https://img.shields.io/crates/v/candle-ext.svg)](https://crates.io/crates/candle-ext)
+
 An extension library to [Candle](https://github.com/huggingface/candle) that provides PyTorch functions not currently available in Candle
 
 currently provides:
