@@ -6,6 +6,7 @@ pub mod candle {
 use candle::{Result, Tensor, WithDType};
 
 mod logical_not;
+mod masked_fill;
 mod scaled_dot_product_attention;
 mod triangular;
 mod values_like;
@@ -17,6 +18,7 @@ pub trait TensorExt: Sized {
     fn triu(&self, diagonal: isize) -> Result<Self>;
     fn values_like<D: WithDType>(&self, value: D) -> Result<Self>;
     fn logical_not(&self) -> Result<Self>;
+    fn masked_fill<D: WithDType>(&self, mask: &Tensor, value: D) -> Result<Self>;
 }
 
 impl TensorExt for Tensor {
@@ -38,5 +40,10 @@ impl TensorExt for Tensor {
     #[inline]
     fn values_like<D: WithDType>(&self, value: D) -> Result<Self> {
         F::values_like(self, value)
+    }
+
+    #[inline]
+    fn masked_fill<D: WithDType>(&self, mask: &Tensor, value: D) -> Result<Self> {
+        F::masked_fill(self, mask, value)
     }
 }

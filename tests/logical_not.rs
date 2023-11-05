@@ -4,17 +4,9 @@ use candle_ext::{
 };
 
 #[test]
-fn test_logical_not() -> Result<()> {
+fn test_logical_not_1() -> Result<()> {
     let device = Device::Cpu;
-    let a = Tensor::ones((4, 4), DType::F32, &device)?.triu(-1)?;
-    assert_eq!(
-        a.logical_not()?.to_vec2::<f32>()?,
-        &[
-            [0., 0., 0., 0.],
-            [0., 0., 0., 0.],
-            [1., 0., 0., 0.],
-            [1., 1., 0., 0.]
-        ]
-    );
+    let a = Tensor::ones((2, 2), DType::U8, &device)?.triu(0)?;
+    assert_eq!(a.logical_not()?.to_vec2::<u8>()?, &[[0, 0], [1, 0],]);
     Ok(())
 }

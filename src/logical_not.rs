@@ -4,8 +4,12 @@ use crate::{
 };
 
 impl F {
+    /// Computes the element-wise logical NOT of the given input tensor.
+    /// If not specified, the output tensor will have the bool dtype.
+    /// If the input tensor is not a bool tensor, zeros are treated as False and non-zeros are treated as True.
     #[inline]
     pub fn logical_not(xs: &Tensor) -> Result<Tensor> {
-        (xs - xs.ones_like()?)? * -1f64
+        xs.where_cond(&xs.zeros_like()?, &xs.ones_like()?)?
+            .to_dtype(xs.dtype())
     }
 }

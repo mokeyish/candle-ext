@@ -1,6 +1,7 @@
-use crate::candle::{DType, Result, Tensor, D};
-use crate::{TensorExt, F};
-use candle_nn::ops;
+use crate::{
+    candle::{nn::ops, DType, Result, Tensor, D},
+    TensorExt, F,
+};
 
 impl F {
     /// Computes scaled dot product attention on query, key and value tensors,
@@ -41,12 +42,7 @@ impl F {
         if matches!(is_causal, Some(true)) {
             assert!(attn_mask.is_none(), "scaled_dot_product_attention: Explicit attn_mask should not be set when is_causal=True");
             let mask = Tensor::ones((l, s), DType::U8, device)?.tril(0)?;
-            attn_bias = mask.where_cond(
-                &attn_bias,
-                &attn_bias
-                    .values_like(f32::NEG_INFINITY)?
-                    .to_dtype(query.dtype())?,
-            )?;
+            attn_bias = attn_bias.masked_fill(&mask.logical_not()?, f32::NEG_INFINITY)?;
         }
 
         if let Some(attn_mask) = attn_mask {
@@ -55,12 +51,7 @@ impl F {
             }
             if attn_mask.dtype() == DType::U8 {
                 // bool
-                attn_bias = attn_mask.broadcast_as(attn_bias.shape())?.where_cond(
-                    &attn_bias,
-                    &attn_bias
-                        .values_like(f32::NEG_INFINITY)?
-                        .to_dtype(query.dtype())?,
-                )?;
+                attn_bias = attn_bias.masked_fill(&attn_mask.logical_not()?, f32::NEG_INFINITY)?;
             } else {
                 attn_bias = (&attn_bias
                     + attn_mask

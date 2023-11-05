@@ -7,13 +7,15 @@ An extension library to [Candle](https://github.com/huggingface/candle) that pro
 
 currently provides (see also [tests](https://github.com/mokeyish/candle-ext/tree/main/tests).):
 
+- F::scaled_dot_product_attention
+
 - F::triu / Tensor::triu
 
 - F::tril / Tensor::tril
 
-- F::logical_not / Tensor::logical_not
+- F::masked_fill / Tensor::masked_fill
 
-- F::scaled_dot_product_attention
+- F::logical_not / Tensor::logical_not
 
 - F::values_like / Tensor::values_like
 
