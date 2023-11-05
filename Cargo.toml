@@ -2,6 +2,9 @@
 name = "candle-ext"
 version = "0.1.0"
 edition = "2021"
+description = "An extension library to Candle that provides PyTorch functions not currently available in Candle"
+
+license = "MIT OR Apache-2.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
