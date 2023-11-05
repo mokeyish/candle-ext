@@ -36,7 +36,7 @@ impl F {
             1.0 / (dim as f64).sqrt()
         };
 
-        let mut attn_bias = Tensor::zeros((l, s), query.dtype(), &device)?;
+        let mut attn_bias = Tensor::zeros((l, s), query.dtype(), device)?;
 
         if matches!(is_causal, Some(true)) {
             assert!(attn_mask.is_none(), "scaled_dot_product_attention: Explicit attn_mask should not be set when is_causal=True");
@@ -53,17 +53,24 @@ impl F {
             if attn_mask.rank() > attn_bias.rank() {
                 attn_bias = attn_bias.broadcast_as(attn_mask.shape())?;
             }
-            attn_bias = attn_mask.broadcast_as(attn_bias.shape())?.where_cond(
-                &attn_bias,
-                &attn_bias
-                    .values_like(f32::NEG_INFINITY)?
-                    .to_dtype(query.dtype())?,
-            )?;
+            if attn_mask.dtype() == DType::U8 {
+                // bool
+                attn_bias = attn_mask.broadcast_as(attn_bias.shape())?.where_cond(
+                    &attn_bias,
+                    &attn_bias
+                        .values_like(f32::NEG_INFINITY)?
+                        .to_dtype(query.dtype())?,
+                )?;
+            } else {
+                attn_bias = (&attn_bias
+                    + attn_mask
+                        .to_dtype(attn_bias.dtype())?
+                        .broadcast_as(attn_bias.shape())?)?;
+            }
         }
 
-        let mut attn_weights = (query
-            .matmul(&key.transpose(D::Minus2, D::Minus1)?.contiguous()?)?
-            * scale_factor)?;
+        let mut attn_weights =
+            (query.matmul(&key.transpose(D::Minus2, D::Minus1)?.contiguous()?)? * scale_factor)?;
 
         attn_weights = (&attn_weights + attn_bias.broadcast_as(attn_weights.shape())?)?;
         attn_weights = ops::softmax_last_dim(&attn_weights)?;
@@ -71,35 +78,6 @@ impl F {
         if let Some(drop_p) = dropout_p {
             attn_weights = ops::dropout(&attn_weights, drop_p)?;
         }
-        attn_weights.matmul(&value)
-    }
-}
-
-
-#[cfg(test)]
-mod tests {
-    use crate::{
-        F,
-        candle::{
-            safetensors, Device, Result
-        }
-    };
-
-    #[test]
-    fn test_scaled_dot_product_attention() -> Result<()> {
-        let device = Device::Cpu;
-        let tensor_map = safetensors::load("data/scaled_dot_product_attention-qkvmo.safetensors", &device)?;
-
-        let q = tensor_map.get("q").unwrap();
-        let k =  tensor_map.get("k").unwrap();
-        let v =  tensor_map.get("v").unwrap();
-        let m =  tensor_map.get("m").unwrap();
-        let o =  tensor_map.get("o").unwrap();
-
-        let out = F::scaled_dot_product_attention(&q, &k, &v, Some(&m), None, None, None)?;
-
-        let diff = (o - out)?.sum_all()?.to_scalar::<f32>()?;
-        assert!(diff < 0.000001f32);
-        Ok(())
+        attn_weights.matmul(value)
     }
 }

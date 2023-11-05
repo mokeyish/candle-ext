@@ -1,4 +1,4 @@
-mod candle {
+pub mod candle {
     pub use candle_core::*;
     pub use candle_nn as nn;
 }

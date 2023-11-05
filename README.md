@@ -5,7 +5,7 @@
 
 An extension library to [Candle](https://github.com/huggingface/candle) that provides PyTorch functions not currently available in Candle
 
-currently provides:
+currently provides (see also [tests](https://github.com/mokeyish/candle-ext/tree/main/tests).):
 
 - F::triu / Tensor::triu
 
