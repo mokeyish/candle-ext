@@ -71,8 +71,6 @@ impl F {
         if let Some(drop_p) = dropout_p {
             attn_weights = ops::dropout(&attn_weights, drop_p)?;
         }
-        println!("attn shape: {:?}", attn_weights.shape());
-        println!("value shape: {:?}", value.shape());
         attn_weights.matmul(&value)
     }
 }
