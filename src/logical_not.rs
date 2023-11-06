@@ -9,7 +9,6 @@ impl F {
     /// If the input tensor is not a bool tensor, zeros are treated as False and non-zeros are treated as True.
     #[inline]
     pub fn logical_not(xs: &Tensor) -> Result<Tensor> {
-        xs.where_cond(&xs.zeros_like()?, &xs.ones_like()?)?
-            .to_dtype(xs.dtype())
+        xs.where_cond(&xs.zeros_like()?, &xs.ones_like()?)
     }
 }

@@ -5,7 +5,7 @@
 
 An extension library to [Candle](https://github.com/huggingface/candle) that provides PyTorch functions not currently available in Candle
 
-currently provides (see also [tests](https://github.com/mokeyish/candle-ext/tree/main/tests).):
+Currently provides (see also [tests](https://github.com/mokeyish/candle-ext/tree/main/tests)):
 
 - F::scaled_dot_product_attention
 
@@ -16,6 +16,10 @@ currently provides (see also [tests](https://github.com/mokeyish/candle-ext/tree
 - F::masked_fill / Tensor::masked_fill
 
 - F::logical_not / Tensor::logical_not
+
+- F::outer / Tensor::outer
+
+- F::unbind / Tensor::unbind / F::unbind2..5 / Tensor::unbind2..5
 
 - F::values_like / Tensor::values_like
 

@@ -6,6 +6,8 @@ use crate::{
 impl F {
     #[inline]
     pub fn values_like<D: WithDType>(xs: &Tensor, value: D) -> Result<Tensor> {
-        Tensor::from_slice(&[value], 1, xs.device())?.broadcast_as(xs.shape())
+        Tensor::from_slice(&[value], 1, xs.device())?
+            .to_dtype(xs.dtype())?
+            .broadcast_as(xs.shape())
     }
 }
