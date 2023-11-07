@@ -28,3 +28,11 @@ fn test_eye_1() -> Result<()> {
     ]);
     Ok(())
 }
+
+#[test]
+fn test_eye_err() -> Result<()> {
+    let device = Device::Cpu;
+    let a = F::eye((3, 4, 5), DType::F32, &device);
+    assert!(a.is_err());
+    Ok(())
+}
