@@ -7,10 +7,20 @@ use candle_ext::{
 fn test_masked_fill() -> Result<()> {
     let device = Device::Cpu;
     let a = Tensor::ones((2, 2), DType::F32, &device)?;
-    let m = Tensor::new(&[[1u8, 0], [1, 0]], &device)?;
+
+    #[rustfmt::skip]
+    let m = Tensor::new(&[
+        [1u8, 0], 
+        [1, 0]
+    ], &device)?;
 
     let b = a.masked_fill(&m, 3.)?;
-    assert_eq!(b.to_vec2::<f32>()?, &[[3., 1.], [3., 1.]]);
+
+    #[rustfmt::skip]
+    assert_eq!(b.to_vec2::<f32>()?, &[
+        [3., 1.], 
+        [3., 1.]
+    ]);
 
     Ok(())
 }
@@ -19,10 +29,20 @@ fn test_masked_fill() -> Result<()> {
 fn test_masked_fill_2() -> Result<()> {
     let device = Device::Cpu;
     let a = Tensor::ones((2, 2), DType::F32, &device)?;
-    let m = Tensor::new(&[[1u8, 0], [0, 1]], &device)?;
+
+    #[rustfmt::skip]
+    let m = Tensor::new(&[
+        [1u8, 0], 
+        [0, 1]
+    ], &device)?;
 
     let b = a.masked_fill(&m, 3.)?;
-    assert_eq!(b.to_vec2::<f32>()?, &[[3., 1.], [1., 3.]]);
+
+    #[rustfmt::skip]
+    assert_eq!(b.to_vec2::<f32>()?, &[
+        [3., 1.], 
+        [1., 3.],
+    ]);
 
     Ok(())
 }
@@ -37,10 +57,13 @@ fn test_masked_fill_3() -> Result<()> {
     let weights_bias = weights_bias.masked_fill(&mask.logical_not()?, f32::NEG_INFINITY)?;
 
     let weights = (weights + weights_bias)?;
-    assert_eq!(
-        weights.to_vec2::<f32>()?,
-        &[[1f32, f32::NEG_INFINITY], [1., 1.], [1., 1.],]
-    );
+
+    #[rustfmt::skip]
+    assert_eq!(weights.to_vec2::<f32>()?,&[
+        [1f32, f32::NEG_INFINITY], 
+        [1., 1.], 
+        [1., 1.],
+    ]);
 
     Ok(())
 }

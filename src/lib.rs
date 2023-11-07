@@ -3,8 +3,10 @@ pub mod candle {
     pub use candle_nn as nn;
 }
 
-use candle::{shape::Dim, Result, Tensor, WithDType};
+use candle::{shape::Dim, DType, Device, Result, Shape, Tensor, WithDType};
 
+mod equal;
+mod eye;
 mod logical_not;
 mod masked_fill;
 mod outer;
@@ -16,17 +18,19 @@ mod values_like;
 pub struct F;
 
 pub trait TensorExt: Sized {
-    fn tril(&self, diagonal: isize) -> Result<Self>;
-    fn triu(&self, diagonal: isize) -> Result<Self>;
-    fn values_like<D: WithDType>(&self, value: D) -> Result<Self>;
+    fn equal(&self, other: &Tensor) -> Result<bool>;
+    fn eye<S: Into<Shape>>(shape: S, dtype: DType, device: &Device) -> Result<Tensor>;
     fn logical_not(&self) -> Result<Self>;
     fn masked_fill<D: WithDType>(&self, mask: &Tensor, value: D) -> Result<Self>;
     fn outer(&self, vec2: &Tensor) -> Result<Self>;
+    fn tril(&self, diagonal: isize) -> Result<Self>;
+    fn triu(&self, diagonal: isize) -> Result<Self>;
     fn unbind<D: Dim>(&self, dim: D) -> Result<Vec<Tensor>>;
     fn unbind2<D: Dim>(&self, dim: D) -> Result<(Tensor, Tensor)>;
     fn unbind3<D: Dim>(&self, dim: D) -> Result<(Tensor, Tensor, Tensor)>;
     fn unbind4<D: Dim>(&self, dim: D) -> Result<(Tensor, Tensor, Tensor, Tensor)>;
     fn unbind5<D: Dim>(&self, dim: D) -> Result<(Tensor, Tensor, Tensor, Tensor, Tensor)>;
+    fn values_like<D: WithDType>(&self, value: D) -> Result<Self>;
 }
 
 impl TensorExt for Tensor {
@@ -83,5 +87,15 @@ impl TensorExt for Tensor {
     #[inline]
     fn unbind5<D: Dim>(&self, dim: D) -> Result<(Tensor, Tensor, Tensor, Tensor, Tensor)> {
         F::unbind5(self, dim)
+    }
+
+    #[inline]
+    fn equal(&self, other: &Tensor) -> Result<bool> {
+        F::equal(self, other)
+    }
+
+    #[inline]
+    fn eye<S: Into<Shape>>(shape: S, dtype: DType, device: &Device) -> Result<Tensor> {
+        F::eye(shape, dtype, device)
     }
 }

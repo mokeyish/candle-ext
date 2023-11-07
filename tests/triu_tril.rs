@@ -7,15 +7,14 @@ use candle_ext::{
 fn test_tril() -> Result<()> {
     let device = Device::Cpu;
     let a = F::tril(&Tensor::ones((4, 4), DType::F32, &device)?, 0)?;
-    assert_eq!(
-        a.to_vec2::<f32>()?,
-        &[
-            [1., 0., 0., 0.],
-            [1., 1., 0., 0.],
-            [1., 1., 1., 0.],
-            [1., 1., 1., 1.]
-        ]
-    );
+
+    #[rustfmt::skip]
+    assert_eq!(a.to_vec2::<f32>()?, &[
+        [1., 0., 0., 0.],
+        [1., 1., 0., 0.],
+        [1., 1., 1., 0.],
+        [1., 1., 1., 1.],
+    ]);
 
     Ok(())
 }
@@ -24,15 +23,14 @@ fn test_tril() -> Result<()> {
 fn test_tril_diagonal_1() -> Result<()> {
     let device = Device::Cpu;
     let a = Tensor::ones((4, 4), DType::F32, &device)?.tril(1)?;
-    assert_eq!(
-        a.to_vec2::<f32>()?,
-        &[
-            [1., 1., 0., 0.],
-            [1., 1., 1., 0.],
-            [1., 1., 1., 1.],
-            [1., 1., 1., 1.]
-        ]
-    );
+
+    #[rustfmt::skip]
+    assert_eq!(a.to_vec2::<f32>()?, &[
+        [1., 1., 0., 0.],
+        [1., 1., 1., 0.],
+        [1., 1., 1., 1.],
+        [1., 1., 1., 1.],
+    ]);
     Ok(())
 }
 
@@ -40,15 +38,14 @@ fn test_tril_diagonal_1() -> Result<()> {
 fn test_tril_diagonal_neg_1() -> Result<()> {
     let device = Device::Cpu;
     let a = F::tril(&Tensor::ones((4, 4), DType::F32, &device)?, -1)?;
-    assert_eq!(
-        a.to_vec2::<f32>()?,
-        &[
-            [0., 0., 0., 0.],
-            [1., 0., 0., 0.],
-            [1., 1., 0., 0.],
-            [1., 1., 1., 0.]
-        ]
-    );
+
+    #[rustfmt::skip]
+    assert_eq!(a.to_vec2::<f32>()?, &[
+        [0., 0., 0., 0.],
+        [1., 0., 0., 0.],
+        [1., 1., 0., 0.],
+        [1., 1., 1., 0.],
+    ]);
     Ok(())
 }
 
@@ -56,15 +53,14 @@ fn test_tril_diagonal_neg_1() -> Result<()> {
 fn test_triu() -> Result<()> {
     let device = Device::Cpu;
     let a = F::triu(&Tensor::ones((4, 4), DType::F32, &device)?, 0)?;
-    assert_eq!(
-        a.to_vec2::<f32>()?,
-        &[
-            [1., 1., 1., 1.],
-            [0., 1., 1., 1.],
-            [0., 0., 1., 1.],
-            [0., 0., 0., 1.]
-        ]
-    );
+
+    #[rustfmt::skip]
+    assert_eq!(a.to_vec2::<f32>()?, &[
+        [1., 1., 1., 1.],
+        [0., 1., 1., 1.],
+        [0., 0., 1., 1.],
+        [0., 0., 0., 1.],
+    ]);
 
     Ok(())
 }
@@ -73,15 +69,14 @@ fn test_triu() -> Result<()> {
 fn test_triu_diagonal_1() -> Result<()> {
     let device = Device::Cpu;
     let a = F::triu(&Tensor::ones((4, 4), DType::F32, &device)?, 1)?;
-    assert_eq!(
-        a.to_vec2::<f32>()?,
-        &[
-            [0., 1., 1., 1.],
-            [0., 0., 1., 1.],
-            [0., 0., 0., 1.],
-            [0., 0., 0., 0.]
-        ]
-    );
+
+    #[rustfmt::skip]
+    assert_eq!(a.to_vec2::<f32>()?, &[
+        [0., 1., 1., 1.],
+        [0., 0., 1., 1.],
+        [0., 0., 0., 1.],
+        [0., 0., 0., 0.],
+    ]);
     Ok(())
 }
 
@@ -89,14 +84,13 @@ fn test_triu_diagonal_1() -> Result<()> {
 fn test_triu_diagonal_neg_1() -> Result<()> {
     let device = Device::Cpu;
     let a = F::triu(&Tensor::ones((4, 4), DType::F32, &device)?, -1)?;
-    assert_eq!(
-        a.to_vec2::<f32>()?,
-        &[
-            [1., 1., 1., 1.],
-            [1., 1., 1., 1.],
-            [0., 1., 1., 1.],
-            [0., 0., 1., 1.]
-        ]
-    );
+
+    #[rustfmt::skip]
+    assert_eq!(a.to_vec2::<f32>()?, &[
+        [1., 1., 1., 1.],
+        [1., 1., 1., 1.],
+        [0., 1., 1., 1.],
+        [0., 0., 1., 1.],
+    ]);
     Ok(())
 }

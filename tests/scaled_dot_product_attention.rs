@@ -18,9 +18,8 @@ fn test_scaled_dot_product_attention() -> Result<()> {
     let o = tensor_map.get("o").unwrap();
 
     let out = F::scaled_dot_product_attention(q, k, v, Some(m), None, None, None)?;
-
-    let diff = (o - out)?.sum_all()?.to_scalar::<f32>()?;
-    assert!(diff < 0.000001f32);
+    let diff = ((o - &out)?.powf(2.)?.sum_all()? / out.elem_count() as f64)?.to_scalar::<f32>()?;
+    assert!(diff < 1e-10);
     Ok(())
 }
 
@@ -40,7 +39,7 @@ fn test_scaled_dot_product_attention_1() -> Result<()> {
 
     let out = F::scaled_dot_product_attention(q, k, v, None, None, Some(true), None)?;
 
-    let diff = (o - out)?.sum_all()?.to_scalar::<f32>()?;
-    assert!(diff < 0.000001f32);
+    let diff = ((o - &out)?.powf(2.)?.sum_all()? / out.elem_count() as f64)?.to_scalar::<f32>()?;
+    assert!(diff < 1e-10);
     Ok(())
 }

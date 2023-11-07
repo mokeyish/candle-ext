@@ -4,6 +4,7 @@ use crate::{
 };
 
 impl F {
+    #[inline]
     pub fn triu(xs: &Tensor, diagonal: isize) -> Result<Tensor> {
         Self::apply_triangular(xs, diagonal, true)
     }
@@ -14,6 +15,7 @@ impl F {
     ///
     /// The lower triangular part of the matrix is defined as the
     /// elements on and below the diagonal.
+    #[inline]
     pub fn tril(xs: &Tensor, diagonal: isize) -> Result<Tensor> {
         Self::apply_triangular(xs, diagonal, false)
     }

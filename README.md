@@ -9,6 +9,10 @@ Currently provides (see also [tests](https://github.com/mokeyish/candle-ext/tree
 
 - F::scaled_dot_product_attention
 
+- F::equal / Tensor::equal
+
+- F::eye / Tensor::eye
+
 - F::triu / Tensor::triu
 
 - F::tril / Tensor::tril
