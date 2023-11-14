@@ -5,9 +5,30 @@
 
 An extension library to [Candle](https://github.com/huggingface/candle) that provides PyTorch functions not currently available in Candle
 
+```rust
+ use candle_ext::{
+     candle::{ D, DType, Device, Result, Tensor},
+     TensorExt, F,
+ };
+
+ fn main() -> Result<()> {
+     let device = Device::Cpu;
+     let q = Tensor::randn(0., 1., (3, 3, 2, 4), &device)?;
+     let k = Tensor::randn(0., 1., (1, 3, 3, 4), &device)?;
+     let v = Tensor::randn(0., 1., (1, 3, 3, 4), &device)?;
+     let m = Tensor::ones((q.dim(D::Minus2)?, k.dim(D::Minus2)?), DType::U8, &device)?.tril(0)?;
+
+     let o = F::scaled_dot_product_attention(&q, &k, &v, Some(&m), None, None, None)?;
+
+     Ok(())
+ }
+```
+
 Currently provides (see also [tests](https://github.com/mokeyish/candle-ext/tree/main/tests)):
 
 - F::scaled_dot_product_attention
+
+- F::chunk2..5 / Tensor::chunk2..5
 
 - F::equal / Tensor::equal
 
