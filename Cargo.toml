@@ -1,6 +1,6 @@
 [package]
 name = "candle-ext"
-version = "0.1.3"
+version = "0.1.4"
 edition = "2021"
 description = "An extension library to Candle that provides PyTorch functions not currently available in Candle"
 
