@@ -30,6 +30,8 @@ Currently provides (see also [tests](https://github.com/mokeyish/candle-ext/tree
 
 - F::chunk2..5 / Tensor::chunk2..5
 
+- F::cumsum / Tensor::cumsum
+
 - F::equal / Tensor::equal
 
 - F::eye / Tensor::eye

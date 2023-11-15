@@ -29,6 +29,7 @@ pub mod candle {
 use candle::{shape::Dim, DType, Device, Result, Shape, Tensor, WithDType};
 
 mod chunk;
+mod cumsum;
 mod equal;
 mod eye;
 mod logical_not;
@@ -67,6 +68,7 @@ pub trait TensorExt: Sized {
     fn chunk3<D: Dim>(&self, dim: D) -> Result<(Tensor, Tensor, Tensor)>;
     fn chunk4<D: Dim>(&self, dim: D) -> Result<(Tensor, Tensor, Tensor, Tensor)>;
     fn chunk5<D: Dim>(&self, dim: D) -> Result<(Tensor, Tensor, Tensor, Tensor, Tensor)>;
+    fn cumsum<D: Dim>(&self, dim: D) -> Result<Tensor>;
     fn equal(&self, other: &Tensor) -> Result<bool>;
     fn eye<S: Into<Shape>>(shape: S, dtype: DType, device: &Device) -> Result<Tensor>;
     fn logical_not(&self) -> Result<Self>;
@@ -166,6 +168,11 @@ impl TensorExt for Tensor {
     #[inline]
     fn chunk5<D: Dim>(&self, dim: D) -> Result<(Tensor, Tensor, Tensor, Tensor, Tensor)> {
         F::chunk5(self, dim)
+    }
+
+    #[inline]
+    fn cumsum<D: Dim>(&self, dim: D) -> Result<Tensor> {
+        F::cumsum(self, dim)
     }
 }
 

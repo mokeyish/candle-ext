@@ -1,5 +1,5 @@
 use crate::{
-    candle::{shape::Dim, Error, IndexOp, Result, Tensor},
+    candle::{shape::Dim, Error, Result, Tensor},
     F,
 };
 
@@ -9,21 +9,9 @@ impl F {
     /// Returns a tuple of all slices along a given dimension, already without it.
     pub fn unbind<D: Dim>(input: &Tensor, dim: D) -> Result<Vec<Tensor>> {
         let dim = dim.to_index(input.shape(), "unbind")?;
-
         let mut tensors = vec![];
         for i in 0..input.dim(dim)? {
-            tensors.push(match dim {
-                0 => input.i(i),
-                1 => input.i((.., i)),
-                2 => input.i((.., .., i)),
-                3 => input.i((.., .., .., i)),
-                4 => input.i((.., .., .., .., i)),
-                5 => input.i((.., .., .., .., .., i)),
-                6 => input.i((.., .., .., .., .., .., i)),
-                _ => {
-                    unimplemented!("unbind")
-                }
-            }?);
+            tensors.push(input.narrow(dim, i, 1)?.squeeze(dim)?);
         }
         Ok(tensors)
     }
