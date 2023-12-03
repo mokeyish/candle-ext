@@ -1,6 +1,6 @@
 use crate::{
     candle::{shape::Dim, Error, Result, Tensor},
-    F,
+    TensorVecExt, F,
 };
 
 impl F {
@@ -19,25 +19,19 @@ impl F {
     pub fn unbind2<D: Dim>(input: &Tensor, dim: D) -> Result<(Tensor, Tensor)> {
         let dim = dim.to_index(input.shape(), "unbind")?;
         check_unbind_shape(input, dim, 2)?;
-        let tensors = F::unbind(input, dim)?;
-        F::unbind_vec2(tensors)
+        F::unbind(input, dim)?.to_tuple2()
     }
 
     pub fn unbind3<D: Dim>(input: &Tensor, dim: D) -> Result<(Tensor, Tensor, Tensor)> {
         let dim = dim.to_index(input.shape(), "unbind")?;
         check_unbind_shape(input, dim, 3)?;
-        let mut tensors = F::unbind(input, dim)?;
-        let c = tensors.pop().unwrap();
-        let b = tensors.pop().unwrap();
-        let a = tensors.pop().unwrap();
-        Ok((a, b, c))
+        F::unbind(input, dim)?.to_tuple3()
     }
 
     pub fn unbind4<D: Dim>(input: &Tensor, dim: D) -> Result<(Tensor, Tensor, Tensor, Tensor)> {
         let dim = dim.to_index(input.shape(), "unbind")?;
         check_unbind_shape(input, dim, 4)?;
-        let tensors = F::unbind(input, dim)?;
-        F::unbind_vec4(tensors)
+        F::unbind(input, dim)?.to_tuple4()
     }
     pub fn unbind5<D: Dim>(
         input: &Tensor,
@@ -45,56 +39,7 @@ impl F {
     ) -> Result<(Tensor, Tensor, Tensor, Tensor, Tensor)> {
         let dim = dim.to_index(input.shape(), "unbind")?;
         check_unbind_shape(input, dim, 5)?;
-        let tensors = F::unbind(input, dim)?;
-        F::unbind_vec5(tensors)
-    }
-
-    pub fn unbind_vec2(mut tensors: Vec<Tensor>) -> Result<(Tensor, Tensor)> {
-        check_tensor_vec_len(&tensors, 2)?;
-        let b = tensors.pop().unwrap();
-        let a = tensors.pop().unwrap();
-        Ok((a, b))
-    }
-
-    pub fn unbind_vec3(mut tensors: Vec<Tensor>) -> Result<(Tensor, Tensor, Tensor)> {
-        check_tensor_vec_len(&tensors, 3)?;
-        let c = tensors.pop().unwrap();
-        let b = tensors.pop().unwrap();
-        let a = tensors.pop().unwrap();
-        Ok((a, b, c))
-    }
-
-    pub fn unbind_vec4(mut tensors: Vec<Tensor>) -> Result<(Tensor, Tensor, Tensor, Tensor)> {
-        check_tensor_vec_len(&tensors, 4)?;
-        let d = tensors.pop().unwrap();
-        let c = tensors.pop().unwrap();
-        let b = tensors.pop().unwrap();
-        let a = tensors.pop().unwrap();
-        Ok((a, b, c, d))
-    }
-
-    pub fn unbind_vec5(
-        mut tensors: Vec<Tensor>,
-    ) -> Result<(Tensor, Tensor, Tensor, Tensor, Tensor)> {
-        check_tensor_vec_len(&tensors, 5)?;
-        let e = tensors.pop().unwrap();
-        let d = tensors.pop().unwrap();
-        let c = tensors.pop().unwrap();
-        let b = tensors.pop().unwrap();
-        let a = tensors.pop().unwrap();
-        Ok((a, b, c, d, e))
-    }
-}
-
-fn check_tensor_vec_len(tensors: &Vec<Tensor>, expected_len: usize) -> Result<()> {
-    if tensors.len() != expected_len {
-        Err(Error::Msg(format!(
-            "unexpected len of Vec<Tensor>, expected: {}, got: {})",
-            expected_len,
-            tensors.len()
-        )))
-    } else {
-        Ok(())
+        F::unbind(input, dim)?.to_tuple5()
     }
 }
 

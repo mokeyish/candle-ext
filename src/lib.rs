@@ -32,13 +32,14 @@ mod chunk;
 mod cumsum;
 mod equal;
 mod eye;
+mod full;
 mod logical_not;
 mod masked_fill;
 mod outer;
 mod scaled_dot_product_attention;
+mod to_tuple;
 mod triangular;
 mod unbind;
-mod values_like;
 
 /// Tensor functional
 /// # Examples
@@ -71,6 +72,13 @@ pub trait TensorExt: Sized {
     fn cumsum<D: Dim>(&self, dim: D) -> Result<Tensor>;
     fn equal(&self, other: &Tensor) -> Result<bool>;
     fn eye<S: Into<Shape>>(shape: S, dtype: DType, device: &Device) -> Result<Tensor>;
+    fn full<S: Into<Shape>, D: WithDType>(
+        shape: S,
+        fill_value: D,
+        dtype: DType,
+        device: &Device,
+    ) -> Result<Tensor>;
+    fn full_like<D: WithDType>(&self, fill_value: D) -> Result<Tensor>;
     fn logical_not(&self) -> Result<Self>;
     fn masked_fill<D: WithDType>(&self, mask: &Tensor, value: D) -> Result<Self>;
     fn outer(&self, vec2: &Tensor) -> Result<Self>;
@@ -81,7 +89,6 @@ pub trait TensorExt: Sized {
     fn unbind3<D: Dim>(&self, dim: D) -> Result<(Tensor, Tensor, Tensor)>;
     fn unbind4<D: Dim>(&self, dim: D) -> Result<(Tensor, Tensor, Tensor, Tensor)>;
     fn unbind5<D: Dim>(&self, dim: D) -> Result<(Tensor, Tensor, Tensor, Tensor, Tensor)>;
-    fn values_like<D: WithDType>(&self, value: D) -> Result<Self>;
 }
 
 impl TensorExt for Tensor {
@@ -98,11 +105,6 @@ impl TensorExt for Tensor {
     #[inline]
     fn logical_not(&self) -> Result<Self> {
         F::logical_not(self)
-    }
-
-    #[inline]
-    fn values_like<D: WithDType>(&self, value: D) -> Result<Self> {
-        F::values_like(self, value)
     }
 
     #[inline]
@@ -174,30 +176,45 @@ impl TensorExt for Tensor {
     fn cumsum<D: Dim>(&self, dim: D) -> Result<Tensor> {
         F::cumsum(self, dim)
     }
+
+    #[inline]
+    fn full<S: Into<Shape>, D: WithDType>(
+        shape: S,
+        fill_value: D,
+        dtype: DType,
+        device: &Device,
+    ) -> Result<Tensor> {
+        F::full(shape, fill_value, dtype, device)
+    }
+
+    #[inline]
+    fn full_like<D: WithDType>(&self, fill_value: D) -> Result<Tensor> {
+        F::full_like(self, fill_value)
+    }
 }
 
 pub trait TensorVecExt {
-    fn unbind2(self) -> Result<(Tensor, Tensor)>;
-    fn unbind3(self) -> Result<(Tensor, Tensor, Tensor)>;
-    fn unbind4(self) -> Result<(Tensor, Tensor, Tensor, Tensor)>;
-    fn unbind5(self) -> Result<(Tensor, Tensor, Tensor, Tensor, Tensor)>;
+    fn to_tuple2(self) -> Result<(Tensor, Tensor)>;
+    fn to_tuple3(self) -> Result<(Tensor, Tensor, Tensor)>;
+    fn to_tuple4(self) -> Result<(Tensor, Tensor, Tensor, Tensor)>;
+    fn to_tuple5(self) -> Result<(Tensor, Tensor, Tensor, Tensor, Tensor)>;
 }
 
 impl TensorVecExt for Vec<Tensor> {
     #[inline]
-    fn unbind2(self) -> Result<(Tensor, Tensor)> {
-        F::unbind_vec2(self)
+    fn to_tuple2(self) -> Result<(Tensor, Tensor)> {
+        F::to_tuple2(self)
     }
     #[inline]
-    fn unbind3(self) -> Result<(Tensor, Tensor, Tensor)> {
-        F::unbind_vec3(self)
+    fn to_tuple3(self) -> Result<(Tensor, Tensor, Tensor)> {
+        F::to_tuple3(self)
     }
     #[inline]
-    fn unbind4(self) -> Result<(Tensor, Tensor, Tensor, Tensor)> {
-        F::unbind_vec4(self)
+    fn to_tuple4(self) -> Result<(Tensor, Tensor, Tensor, Tensor)> {
+        F::to_tuple4(self)
     }
     #[inline]
-    fn unbind5(self) -> Result<(Tensor, Tensor, Tensor, Tensor, Tensor)> {
-        F::unbind_vec5(self)
+    fn to_tuple5(self) -> Result<(Tensor, Tensor, Tensor, Tensor, Tensor)> {
+        F::to_tuple5(self)
     }
 }

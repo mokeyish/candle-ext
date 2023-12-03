@@ -36,6 +36,10 @@ Currently provides (see also [tests](https://github.com/mokeyish/candle-ext/tree
 
 - F::eye / Tensor::eye
 
+- F::full / Tensor::full
+
+- F::full_like / Tensor::full_like
+
 - F::triu / Tensor::triu
 
 - F::tril / Tensor::tril
@@ -47,8 +51,6 @@ Currently provides (see also [tests](https://github.com/mokeyish/candle-ext/tree
 - F::outer / Tensor::outer
 
 - F::unbind / Tensor::unbind / F::unbind2..5 / Tensor::unbind2..5
-
-- F::values_like / Tensor::values_like
 
 
 ## License
