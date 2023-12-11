@@ -34,6 +34,7 @@ mod equal;
 mod eye;
 mod full;
 mod logical_not;
+mod logical_or;
 mod masked_fill;
 mod outer;
 mod scaled_dot_product_attention;
@@ -80,6 +81,7 @@ pub trait TensorExt: Sized {
     ) -> Result<Tensor>;
     fn full_like<D: WithDType>(&self, fill_value: D) -> Result<Tensor>;
     fn logical_not(&self) -> Result<Self>;
+    fn logical_or(&self, other: &Tensor) -> Result<Self>;
     fn masked_fill<D: WithDType>(&self, mask: &Tensor, value: D) -> Result<Self>;
     fn outer(&self, vec2: &Tensor) -> Result<Self>;
     fn tril(&self, diagonal: isize) -> Result<Self>;
@@ -105,6 +107,10 @@ impl TensorExt for Tensor {
     #[inline]
     fn logical_not(&self) -> Result<Self> {
         F::logical_not(self)
+    }
+
+    fn logical_or(&self, other: &Tensor) -> Result<Self> {
+        F::logical_or(self, other)
     }
 
     #[inline]

@@ -12,3 +12,4 @@ repository = "https://github.com/mokeyish/candle-ext"
 [dependencies]
 candle-core = "0.3"
 candle-nn = "0.3"
+num-traits = "0.2"

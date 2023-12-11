@@ -22,7 +22,7 @@ impl F {
             }
             tensors.push(a.narrow(dim, 0, 1)?);
         }
-        
+
         let cumsum = Tensor::cat(&tensors, dim)?;
         Ok(cumsum)
     }
