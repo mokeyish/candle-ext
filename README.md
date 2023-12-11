@@ -48,6 +48,8 @@ Currently provides (see also [tests](https://github.com/mokeyish/candle-ext/tree
 
 - F::logical_not / Tensor::logical_not
 
+- F::logical_or / Tensor::logical_or
+
 - F::outer / Tensor::outer
 
 - F::unbind / Tensor::unbind / F::unbind2..5 / Tensor::unbind2..5
