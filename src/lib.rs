@@ -33,6 +33,8 @@ mod cumsum;
 mod equal;
 mod eye;
 mod full;
+#[cfg(feature = "cuda")]
+mod kernels;
 mod logical_not;
 mod logical_or;
 mod masked_fill;

@@ -9,7 +9,17 @@ repository = "https://github.com/mokeyish/candle-ext"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[features]
+
+default = []
+
+cuda = ["candle-core/cuda"]
+
 [dependencies]
 candle-core = "0.3"
 candle-nn = "0.3"
 num-traits = "0.2"
+
+
+[build-dependencies]
+anyhow = "1.0.75"
