@@ -1,3 +1,4 @@
+#![cfg(feature = "equal")]
 use crate::{
     candle::{Result, Tensor},
     F,

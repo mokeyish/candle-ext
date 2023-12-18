@@ -1,3 +1,4 @@
+#![cfg(feature = "masked_fill")]
 use crate::{
     candle::{Result, Tensor, WithDType},
     TensorExt, F,

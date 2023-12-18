@@ -1,3 +1,4 @@
+#![cfg(feature = "full")]
 use candle_ext::{
     candle::{Device, Result, Tensor},
     F,

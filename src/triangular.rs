@@ -1,3 +1,4 @@
+#![cfg(feature = "triangular")]
 use crate::{
     candle::{Result, Tensor},
     F,

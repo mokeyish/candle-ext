@@ -1,3 +1,4 @@
+#![cfg(feature = "logical_not")]
 use crate::{
     candle::{Result, Tensor},
     F,

@@ -1,3 +1,4 @@
+#![cfg(feature = "scaled_dot_product_attention")]
 use candle_ext::{
     candle::{safetensors, Device, Result},
     F,

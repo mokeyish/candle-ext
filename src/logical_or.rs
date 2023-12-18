@@ -1,3 +1,4 @@
+#![cfg(feature = "logical_or")]
 use crate::{
     candle::{self, CpuStorage, CustomOp2, Layout, Result, Shape, Tensor, WithDType},
     F,

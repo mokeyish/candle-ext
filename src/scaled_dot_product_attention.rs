@@ -1,3 +1,4 @@
+#![cfg(feature = "scaled_dot_product_attention")]
 use crate::{
     candle::{nn::ops, DType, Result, Tensor, D},
     TensorExt, F,

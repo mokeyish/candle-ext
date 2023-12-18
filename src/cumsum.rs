@@ -1,3 +1,4 @@
+#![cfg(feature = "cumsum")]
 use crate::{
     candle::{shape::Dim, Result, Tensor},
     F,

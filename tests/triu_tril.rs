@@ -1,3 +1,4 @@
+#![cfg(feature = "triangular")]
 use candle_ext::{
     candle::{DType, Device, Result, Tensor},
     TensorExt, F,

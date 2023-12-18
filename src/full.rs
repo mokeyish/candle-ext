@@ -1,3 +1,4 @@
+#![cfg(feature = "full")]
 use crate::{
     candle::{DType, Device, Result, Shape, Tensor, WithDType},
     F,
@@ -24,7 +25,7 @@ impl F {
     /// F::full(input.shape(), fill_value, dtype=input.dtype(), device=input.device()).
     ///
     /// [https://pytorch.org/docs/stable/generated/torch.full_like.html](https://pytorch.org/docs/stable/generated/torch.full_like.html)
-    #[inline]
+    #[cfg(feature = "full_like")]
     pub fn full_like<D: WithDType>(input: &Tensor, fill_value: D) -> Result<Tensor> {
         F::full(input.shape(), fill_value, input.dtype(), input.device())
     }

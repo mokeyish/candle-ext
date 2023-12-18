@@ -1,3 +1,4 @@
+#![cfg(feature = "outer")]
 use crate::{
     candle::{Result, Tensor, D},
     F,

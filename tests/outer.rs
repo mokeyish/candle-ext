@@ -1,3 +1,4 @@
+#![cfg(feature = "outer")]
 use candle_ext::{
     candle::{Device, Result, Tensor},
     TensorExt,

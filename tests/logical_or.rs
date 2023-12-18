@@ -1,3 +1,4 @@
+#![cfg(feature = "logical_or")]
 use candle_ext::{
     candle::{DType, Device, Result, Tensor},
     TensorExt,

@@ -7,13 +7,52 @@ description = "An extension library to Candle that provides PyTorch functions no
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/mokeyish/candle-ext"
 
+[lib]
+doctest = false
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [features]
 
-default = []
+default = ["all"]
+
+all = [
+    "chunk",
+    "cumsum",
+    "equal",
+    "eye",
+    "logical_not",
+    "logical_or",
+    "masked_fill",
+    "outer",
+    "scaled_dot_product_attention",
+    "triangular",
+    "unbind",
+]
+
+# functions feature
+chunk = ["to_tuple"]
+cumsum = []
+equal = []
+eye = []
+full = []
+full_like = ["full"]
+logical_not = []
+logical_or = []
+masked_fill = ["full_like"]
+outer = []
+scaled_dot_product_attention = ["masked_fill", "logical_not", "tril"]
+triangular = []
+to_tuple = []
+tril = ["triangular"]
+trilu = ["triangular"]
+unbind = ["to_tuple"]
 
 cuda = ["candle-core/cuda"]
+
+# features for unit tests
+test_masked_fill = ["masked_fill", "triangular", "logical_not"]
+
 
 [dependencies]
 candle-core = "0.3"

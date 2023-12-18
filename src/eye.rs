@@ -1,3 +1,4 @@
+#![cfg(feature = "eye")]
 use crate::{
     candle::{bail, DType, Device, Result, Shape, Tensor},
     F,

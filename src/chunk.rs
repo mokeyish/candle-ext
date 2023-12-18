@@ -1,3 +1,4 @@
+#![cfg(feature = "chunk")]
 use crate::{
     candle::{shape::Dim, Result, Tensor},
     TensorVecExt, F,

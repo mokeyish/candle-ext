@@ -1,3 +1,4 @@
+#![cfg(feature = "test_masked_fill")]
 use candle_ext::{
     candle::{DType, Device, Result, Tensor},
     TensorExt,

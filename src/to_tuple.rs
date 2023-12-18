@@ -1,3 +1,4 @@
+#![cfg(feature = "to_tuple")]
 use crate::{
     candle::{Error, Result, Tensor},
     F,

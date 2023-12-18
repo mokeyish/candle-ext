@@ -1,3 +1,4 @@
+#![cfg(feature = "unbind")]
 use crate::{
     candle::{shape::Dim, Error, Result, Tensor},
     TensorVecExt, F,

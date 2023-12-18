@@ -1,3 +1,4 @@
+#![cfg(feature = "cumsum")]
 use candle_ext::{
     candle::{Device, Result, Tensor},
     TensorExt, F,
