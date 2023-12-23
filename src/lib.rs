@@ -41,6 +41,7 @@ mod logical_or;
 mod masked_fill;
 mod outer;
 mod scaled_dot_product_attention;
+mod scatter;
 mod to_tuple;
 mod triangular;
 mod unbind;
@@ -100,6 +101,8 @@ pub trait TensorExt: Sized {
     fn masked_fill<D: WithDType>(&self, mask: &Tensor, value: D) -> Result<Self>;
     #[cfg(feature = "outer")]
     fn outer(&self, vec2: &Tensor) -> Result<Self>;
+    #[cfg(feature = "scatter")]
+    fn scatter<D: Dim>(&self, indexes: &Tensor, src: &Tensor, dim: D) -> Result<Tensor>;
     #[cfg(feature = "triangular")]
     fn tril(&self, diagonal: isize) -> Result<Self>;
     #[cfg(feature = "triangular")]
@@ -144,6 +147,12 @@ impl TensorExt for Tensor {
     #[inline]
     fn masked_fill<D: WithDType>(&self, mask: &Tensor, value: D) -> Result<Self> {
         F::masked_fill(self, mask, value)
+    }
+
+    #[cfg(feature = "scatter")]
+    #[inline]
+    fn scatter<D: Dim>(&self, indexes: &Tensor, src: &Tensor, dim: D) -> Result<Tensor> {
+        F::scatter(self, indexes, src, dim)
     }
 
     #[cfg(feature = "outer")]

@@ -18,13 +18,14 @@ default = ["all"]
 
 all = [
     "chunk",
-    "cumsum",
+    # "cumsum",
     "equal",
-    "eye",
+    # "eye",
     "logical_not",
     "logical_or",
     "masked_fill",
     "outer",
+    "scatter",
     "scaled_dot_product_attention",
     "triangular",
     "unbind",
@@ -44,6 +45,7 @@ outer = []
 scaled_dot_product_attention = ["masked_fill", "logical_not", "tril"]
 triangular = []
 to_tuple = []
+scatter = []
 tril = ["triangular"]
 trilu = ["triangular"]
 unbind = ["to_tuple"]

@@ -40,6 +40,8 @@ Currently provides (see also [tests](https://github.com/mokeyish/candle-ext/tree
 
 - F::full_like / Tensor::full_like
 
+- F::scatter / Tensor::scatter
+
 - F::triu / Tensor::triu
 
 - F::tril / Tensor::tril
